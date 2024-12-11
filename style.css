@@ -209,39 +209,34 @@ footer a:hover {
 .toast-container {
     position: fixed;
     top: 80px;
-    right: 30px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1050;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     gap: 8px;
     max-width: 360px;
     padding: 8px;
+    pointer-events: none;
 }
 
 /* 基础提示框样式 */
 .toast {
     min-width: 260px;
     max-width: 100%;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(8px);
+    background: transparent;
     border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     margin-bottom: 0;
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateY(-20px);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 显示状态 */
-.toast.show {
-    opacity: 1;
-    transform: translateX(0);
+    pointer-events: auto;
 }
 
 /* 提示框内容 */
 .toast-body {
-    padding: 0.75rem 1rem;
+    padding: 10px 16px;
     color: #fff;
     border-radius: 8px;
     font-weight: 500;
@@ -249,34 +244,39 @@ footer a:hover {
     display: flex;
     align-items: center;
     gap: 6px;
+    line-height: 1.4;
+    min-height: 42px;
 }
 
 /* 不同类型的提示框样式 */
-.toast-danger {
+.toast-danger .toast-body {
     background: linear-gradient(135deg, #ff4b4b 0%, #ff0000 100%);
     box-shadow: 0 4px 12px rgba(255, 0, 0, 0.15);
 }
 
-.toast-warning {
+.toast-warning .toast-body {
     background: linear-gradient(135deg, #ffa600 0%, #ff7c00 100%);
     box-shadow: 0 4px 12px rgba(255, 124, 0, 0.15);
 }
 
-.toast-info {
+.toast-info .toast-body {
     background: linear-gradient(135deg, #0095ff 0%, #0062ff 100%);
     box-shadow: 0 4px 12px rgba(0, 98, 255, 0.15);
 }
 
 /* 加载提示框特殊样式 */
-.toast-loading {
+.toast-loading .toast-body {
     min-width: 280px;
+    background: linear-gradient(135deg, #0095ff 0%, #0062ff 100%);
+    box-shadow: 0 4px 12px rgba(0, 98, 255, 0.15);
 }
 
 .toast-loading .progress {
     height: 3px;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 1.5px;
-    margin-top: 10px;
+    margin-top: 8px;
+    margin-bottom: 2px;
     overflow: hidden;
 }
 
@@ -291,23 +291,10 @@ footer a:hover {
     font-size: 1em;
 }
 
-/* 添加图标 */
-.toast-body::before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    margin-right: 8px;
-}
-
-.toast-danger .toast-body::before {
-    content: "\f071";  /* 警告图标 */
-}
-
-.toast-warning .toast-body::before {
-    content: "\f06a";  /* 感叹号图标 */
-}
-
-.toast-info .toast-body::before {
-    content: "\f05a";  /* 信息图标 */
+/* 显示状态 */
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* 移动端适配 */
@@ -315,21 +302,8 @@ footer a:hover {
     .toast-container {
         top: auto;
         bottom: 16px;
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
         width: calc(100% - 32px);
         max-width: 320px;
         padding: 6px;
-    }
-    
-    .toast {
-        width: 100%;
-        min-width: 0;
-        transform: translateY(20px);
-    }
-    
-    .toast.show {
-        transform: translateY(0);
     }
 }
