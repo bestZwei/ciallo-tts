@@ -205,62 +205,132 @@ footer a:hover {
     border-color: rgba(74, 144, 226, 0.3);
 }
 
-/* 添加悬浮提示框样式 */
+/* 提示框容器 */
 .toast-container {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;  /* 提示框之间的间距 */
+    max-width: 400px;  /* 最大宽度 */
+    padding: 10px;
 }
 
+/* 基础提示框样式 */
 .toast {
-    min-width: 200px;
+    min-width: 280px;
+    max-width: 100%;
     background: rgba(255, 255, 255, 0.95);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    margin-bottom: 10px;
-    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);  /* 背景模糊效果 */
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    margin-bottom: 0;  /* 移除默认边距，使用gap控制 */
     opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 显示状态 */
 .toast.show {
     opacity: 1;
+    transform: translateX(0);
 }
 
+/* 提示框内容 */
 .toast-body {
-    padding: 1rem;
+    padding: 1rem 1.25rem;
     color: #fff;
-    border-radius: 10px;
+    border-radius: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
+/* 不同类型的提示框样式 */
 .toast-danger {
-    background: linear-gradient(145deg, #ef4444 0%, #dc2626 100%);
+    background: linear-gradient(135deg, #ff4b4b 0%, #ff0000 100%);
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.2);
 }
 
 .toast-warning {
-    background: linear-gradient(145deg, #f59e0b 0%, #d97706 100%);
+    background: linear-gradient(135deg, #ffa600 0%, #ff7c00 100%);
+    box-shadow: 0 4px 15px rgba(255, 124, 0, 0.2);
 }
 
 .toast-info {
-    background: linear-gradient(145deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #0095ff 0%, #0062ff 100%);
+    box-shadow: 0 4px 15px rgba(0, 98, 255, 0.2);
 }
 
+/* 加载提示框特殊样式 */
 .toast-loading {
-    min-width: 300px;
+    min-width: 320px;
 }
 
 .toast-loading .progress {
     height: 4px;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 2px;
-    margin-top: 10px;
+    margin-top: 12px;
+    overflow: hidden;
 }
 
 .toast-loading .progress-bar {
-    background-color: #ffffff;
+    background: rgba(255, 255, 255, 0.9);
     transition: width 0.3s ease;
+    border-radius: 2px;
 }
 
 .toast-loading .fa-spinner {
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+/* 添加图标 */
+.toast-body::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     margin-right: 8px;
+}
+
+.toast-danger .toast-body::before {
+    content: "\f071";  /* 警告图标 */
+}
+
+.toast-warning .toast-body::before {
+    content: "\f06a";  /* 感叹号图标 */
+}
+
+.toast-info .toast-body::before {
+    content: "\f05a";  /* 信息图标 */
+}
+
+/* 移动端适配 */
+@media (max-width: 576px) {
+    .toast-container {
+        top: auto;
+        bottom: 20px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: calc(100% - 40px);
+        max-width: 360px;
+    }
+    
+    .toast {
+        width: 100%;
+        min-width: 0;
+    }
+    
+    .toast:not(.show) {
+        transform: translateY(100%);
+    }
+    
+    .toast.show {
+        transform: translateY(0);
+    }
 }

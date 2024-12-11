@@ -401,15 +401,20 @@ function showMessage(message, type = 'danger') {
     
     $('.toast-container').append(toast);
     
+    // 强制重绘以触发动画
+    toast[0].offsetHeight;
+    
     // 显示动画
-    setTimeout(() => {
+    requestAnimationFrame(() => {
         toast.addClass('show');
-    }, 100);
+    });
     
     // 3秒后淡出并移除
     setTimeout(() => {
         toast.removeClass('show');
-        setTimeout(() => toast.remove(), 300);
+        toast.on('transitionend', function() {
+            toast.remove();
+        });
     }, 3000);
 }
 
@@ -490,7 +495,6 @@ function splitText(text, maxLength = 2500) {
 }
 
 function showLoading(message) {
-    // 如果已经存在loading���示，则更新内容
     let loadingToast = $('.toast-loading');
     if (loadingToast.length) {
         loadingToast.find('.toast-body').html(`
@@ -505,7 +509,6 @@ function showLoading(message) {
         return;
     }
 
-    // 创建新的loading提示
     const toast = $(`
         <div class="toast toast-loading">
             <div class="toast-body toast-info">
@@ -521,7 +524,9 @@ function showLoading(message) {
     `);
     
     $('.toast-container').append(toast);
-    setTimeout(() => toast.addClass('show'), 100);
+    requestAnimationFrame(() => {
+        toast.addClass('show');
+    });
 }
 
 function hideLoading() {
